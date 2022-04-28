@@ -18,23 +18,13 @@ APP_FOLDER = os.path.dirname(os.path.abspath(__file__))
 DOWNLOAD_FOLDER = os.path.join(APP_FOLDER,'download')
 
 
-video_list = []
-for fname in os.listdir(DOWNLOAD_FOLDER):
-    if fname.endswith('.mp4'):
-        print(fname)
-        video_list.append(fname)
-        break
-    else: print('not used')
     
     
 #cap = cv2.VideoCapture(os.path.join(DOWNLOAD_FOLDER,video_list[len(video_list)-1]))
     # do stuff if a file .true doesn't exist.
 
 #second
-cap = cv2.VideoCapture(os.path.join(DOWNLOAD_FOLDER,'mockup.mp4'))
-seconds = time.time() 
-detector = dlib.get_frontal_face_detector()
-predictor = dlib.shape_predictor('rsc/shape_predictor_68_face_landmarks.dat')
+
  
 def eye_aspect_ratio(eye):
     A = distance.euclidean(eye[1], eye[5])
@@ -45,6 +35,10 @@ def eye_aspect_ratio(eye):
  
 
 def eyeblink ():
+    cap = cv2.VideoCapture(os.path.join(DOWNLOAD_FOLDER,'mockup.mp4'))
+    seconds = time.time() 
+    detector = dlib.get_frontal_face_detector()
+    predictor = dlib.shape_predictor('rsc/shape_predictor_68_face_landmarks.dat')
     total = 0
     count = 0
     while True:
@@ -81,6 +75,7 @@ def eyeblink ():
             #         print(eye)
             #         total+=1
                 count=0
+        print(timer)
         timer = 10-math.floor(time.time()-seconds)
         #cv2.imshow('Video',img)
         if timer == 0:
