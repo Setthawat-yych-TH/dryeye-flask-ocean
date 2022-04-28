@@ -81,7 +81,7 @@ def eyeblink ():
             #         print(eye)
             #         total+=1
                 count=0
-        timer = 60-math.floor(time.time()-seconds)
+        timer = 30-math.floor(time.time()-seconds)
         #cv2.imshow('Video',img)
         if timer == 0:
 	        return total
