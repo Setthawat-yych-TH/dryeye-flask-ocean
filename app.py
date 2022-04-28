@@ -12,15 +12,6 @@ from google.cloud import firestore
 import firebase_admin
 from firebase_admin import credentials
 
-os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "dryeye-video-firebase-firebase-adminsdk-rpf9i-64aa3ea14e.json"
-cred = credentials.Certificate("dryeye-video-firebase-firebase-adminsdk-rpf9i-64aa3ea14e.json")
-firebase_admin.initialize_app(cred)
-firebase = Firebase(config)
-storage = firebase.storage()
-
-
-
-
 config = {
   "apiKey": "AIzaSyC23zle1HEwFlNQOi10E4QdTLtdiLkIsb0",
   "authDomain": "dryeye-video-firebase.firebaseapp.com",
@@ -28,6 +19,13 @@ config = {
   "storageBucket": "dryeye-video-firebase.appspot.com",
   "serviceAccount" : "dryeye-video-firebase-firebase-adminsdk-rpf9i-4f393863ef.json"
 }
+
+os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "dryeye-video-firebase-firebase-adminsdk-rpf9i-64aa3ea14e.json"
+cred = credentials.Certificate("dryeye-video-firebase-firebase-adminsdk-rpf9i-64aa3ea14e.json")
+firebase_admin.initialize_app(cred)
+firebase = Firebase(config)
+storage = firebase.storage()
+
 
 app = Flask(__name__)
 app.config.from_object(__name__)
