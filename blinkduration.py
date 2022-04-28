@@ -66,7 +66,7 @@ def blinkduration ():
 
         timer = math.floor(time.time()-seconds)
         #cv2.imshow('Video',img)
-        if cv2.waitKey(5) & 0xFF == ord('q') or total == 1:
+        if total == 1:
 	        return timer
 
 def clearFolder():

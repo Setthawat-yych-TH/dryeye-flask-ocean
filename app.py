@@ -98,7 +98,17 @@ def valueBlinkDuration():
     json_dict = {}
     value = blinkduration.blinkduration()
         #eyeblink.clearFolder()
-    return str(value)
+    cred = credentials.Certificate("dryeye-video-firebase-firebase-adminsdk-rpf9i-64aa3ea14e.json")
+    firebase_admin.initialize_app(cred)
+    db = firestore.Client()
+    data = {
+        'name':'test', 'result':value
+    }
+    db.collection(u'dryeye').document(u'blinkduration').set(data)
+    
+        #eyeblink.clearFolder()
+    return 'video upload'
+
 
 
 
