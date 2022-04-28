@@ -8,6 +8,14 @@ import cv2
 import eyeblink
 import blinkduration
 from firebase import Firebase 
+from google.cloud import firestore
+import firebase_admin
+from firebase_admin import credentials
+
+os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "dryeye-video-firebase-firebase-adminsdk-rpf9i-64aa3ea14e.json"
+
+
+
 
 
 config = {
@@ -71,8 +79,17 @@ def valueEyeBlink():
     #if(request.headers.get('key')==secret_key):
     json_dict = {}
     value = eyeblink.eyeblink()
+    firebase = Firebase(config)
+    cred = credentials.Certificate("dryeye-video-firebase-firebase-adminsdk-rpf9i-64aa3ea14e.json")
+    firebase_admin.initialize_app(cred)
+    db = firestore.Client()
+    data = {
+        'name':'test', 'result':value
+    }
+    db.collection(u'dryeye').document(u'eyeblink').set(data)
+    
         #eyeblink.clearFolder()
-    return str(value)
+    return 'video upload'
 
 
 @app.route('/valueBlinkDuration')
