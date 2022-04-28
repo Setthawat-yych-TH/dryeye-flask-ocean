@@ -34,7 +34,7 @@ secret_key = '569b9653d72565a63435e873bbab94ed'
 app.config['SECRET_KEY'] = secret_key
 
 APP_FOLDER = os.path.dirname(os.path.abspath(__file__))
-DOWNLOAD_FOLDER = os.path.join(APP_FOLDER,'upload')
+DOWNLOAD_FOLDER = os.path.join(APP_FOLDER,'download')
 
 app.config['APP_FOLDER'] = APP_FOLDER
 app.config['DOWNLOAD_FOLDER'] = DOWNLOAD_FOLDER
@@ -60,7 +60,7 @@ def getFile(files):
 def downloadVideo():
     # if request.method == 'GET':
     #     if(request.headers.get('key')==secret_key):
-    storage.child("video_mockup/test.mp4").download("download/mockup.mp4")
+    storage.child("video_mockup/test.mp4").download(os.path.join(DOWNLOAD_FOLDER,'mockup.mp4'))
     return 'video uploaded successfully'
     # else:
     #     return 'failed'
@@ -77,7 +77,7 @@ def uploader():
 def valueEyeBlink():
     #if(request.headers.get('key')==secret_key):
     json_dict = {}
-    storage.child("video_mockup/test.mp4").download("download/mockup.mp4")
+    storage.child("video_mockup/test.mp4").download(os.path.join(DOWNLOAD_FOLDER,'mockup.mp4'))
     value = eyeblink.eyeblink()
     firebase = Firebase(config)
     db = firestore.Client()
@@ -94,7 +94,7 @@ def valueEyeBlink():
 def valueBlinkDuration():
     #if(request.headers.get('key')==secret_key):
     json_dict = {}
-    storage.child("video_mockup/test.mp4").download("download/mockup.mp4")
+    storage.child("video_mockup/test.mp4").download(os.path.join(DOWNLOAD_FOLDER,'mockup.mp4'))
     value = blinkduration.blinkduration()
         #eyeblink.clearFolder()
     db = firestore.Client()
