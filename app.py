@@ -11,6 +11,7 @@ from firebase import Firebase
 from google.cloud import firestore
 import firebase_admin
 from firebase_admin import credentials
+from datetime import datetime
 
 config = {
   "apiKey": "AIzaSyC23zle1HEwFlNQOi10E4QdTLtdiLkIsb0",
@@ -84,13 +85,15 @@ def valueEyeBlink():
     value = eyeblink.eyeblink()
     firebase = Firebase(config)
     db = firestore.Client()
+    now = datetime.now()
+    date_time = now.strftime("%m/%d/%Y, %H:%M:%S")
     data = {
-        'name':'test', 'result':value
+        'name':'test', 'result':value, 'time':date_time
     }
     db.collection(u'dryeye').document(u'eyeblink').set(data)
     
         #eyeblink.clearFolder()
-    return 'video upload'
+    return 'eyeblink update'
 
 
 @app.route('/valueBlinkDuration')
@@ -101,13 +104,15 @@ def valueBlinkDuration():
     value = blinkduration.blinkduration()
         #eyeblink.clearFolder()
     db = firestore.Client()
+    now = datetime.now()
+    date_time = now.strftime("%m/%d/%Y, %H:%M:%S")
     data = {
-        'name':'test', 'result':value
+        'name':'test', 'result':value, 'time':date_time
     }
     db.collection(u'dryeye').document(u'blinkduration').set(data)
     
         #eyeblink.clearFolder()
-    return 'video upload'
+    return 'blinkduration update'
 
 
 

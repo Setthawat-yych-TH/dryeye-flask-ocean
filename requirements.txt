@@ -10,6 +10,7 @@ colorama==0.4.4
 crypto==1.4.1
 cryptography==36.0.2
 dataclasses==0.6
+datetime==4.4
 Deprecated==1.2.13
 dlib==19.23.1
 firebase==3.0.1
