@@ -55,6 +55,9 @@ def getFile(files):
     #if request.headers.get('key') == secret_key:
     return str(files) 
 
+@app.route('/getPath')
+def getPath():
+    return str(APP_FOLDER + ' ' + DOWNLOAD_FOLDER)
 
 @app.route('/downloadVideo')
 def downloadVideo():
