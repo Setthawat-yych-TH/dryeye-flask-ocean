@@ -1,5 +1,7 @@
 import os
 
+from numpy import eye
+
 from flask import Flask, jsonify, request, render_template, Response
 from werkzeug.utils import secure_filename
 from werkzeug.datastructures import  FileStorage
@@ -114,6 +116,9 @@ def valueBlinkDuration():
         #eyeblink.clearFolder()
     return 'blinkduration update'
 
+@app.route('/clearFile')
+def clearFile():
+    eyeblink.clearFolder()
 
 
 
