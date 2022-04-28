@@ -13,7 +13,10 @@ import firebase_admin
 from firebase_admin import credentials
 
 os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "dryeye-video-firebase-firebase-adminsdk-rpf9i-64aa3ea14e.json"
-
+cred = credentials.Certificate("dryeye-video-firebase-firebase-adminsdk-rpf9i-64aa3ea14e.json")
+firebase_admin.initialize_app(cred)
+firebase = Firebase(config)
+storage = firebase.storage()
 
 
 
@@ -59,8 +62,6 @@ def getFile(files):
 def downloadVideo():
     # if request.method == 'GET':
     #     if(request.headers.get('key')==secret_key):
-    firebase = Firebase(config)
-    storage = firebase.storage()
     storage.child("video_mockup/test.mp4").download("download/mockup.mp4")
     return 'video uploaded successfully'
     # else:
@@ -78,10 +79,9 @@ def uploader():
 def valueEyeBlink():
     #if(request.headers.get('key')==secret_key):
     json_dict = {}
+    storage.child("video_mockup/test.mp4").download("download/mockup.mp4")
     value = eyeblink.eyeblink()
     firebase = Firebase(config)
-    cred = credentials.Certificate("dryeye-video-firebase-firebase-adminsdk-rpf9i-64aa3ea14e.json")
-    firebase_admin.initialize_app(cred)
     db = firestore.Client()
     data = {
         'name':'test', 'result':value
@@ -96,10 +96,9 @@ def valueEyeBlink():
 def valueBlinkDuration():
     #if(request.headers.get('key')==secret_key):
     json_dict = {}
+    storage.child("video_mockup/test.mp4").download("download/mockup.mp4")
     value = blinkduration.blinkduration()
         #eyeblink.clearFolder()
-    cred = credentials.Certificate("dryeye-video-firebase-firebase-adminsdk-rpf9i-64aa3ea14e.json")
-    firebase_admin.initialize_app(cred)
     db = firestore.Client()
     data = {
         'name':'test', 'result':value
