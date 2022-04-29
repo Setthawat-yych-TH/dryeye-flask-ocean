@@ -121,7 +121,9 @@ def valueBlinkDuration():
 def clearFile():
     eyeblink.clearFolder()
 
-
+@app.route('/checkFile')
+def checkFile():
+    eyeblink.checkFolder()
 
 if __name__ == "__main__":
     app.run(debug=False)
