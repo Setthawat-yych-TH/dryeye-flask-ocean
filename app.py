@@ -58,6 +58,7 @@ def getFile(files):
     #if request.headers.get('key') == secret_key:
     return str(files) 
 
+
 @app.route('/getPath')
 def getPath():
     return str(APP_FOLDER + ' ' + DOWNLOAD_FOLDER)
@@ -83,7 +84,7 @@ def uploader():
 def valueEyeBlink():
     #if(request.headers.get('key')==secret_key):
     json_dict = {}
-    storage.child("video_mockup/test.mp4").download(os.path.join(DOWNLOAD_FOLDER,'mockup.mp4'))
+    #storage.child("video_mockup/test.mp4").download(os.path.join(DOWNLOAD_FOLDER,'mockup.mp4'))
     value = eyeblink.eyeblink()
     firebase = Firebase(config)
     db = firestore.Client()
@@ -102,7 +103,7 @@ def valueEyeBlink():
 def valueBlinkDuration():
     #if(request.headers.get('key')==secret_key):
     json_dict = {}
-    storage.child("video_mockup/test.mp4").download(os.path.join(DOWNLOAD_FOLDER,'mockup.mp4'))
+    #storage.child("video_mockup/test.mp4").download(os.path.join(DOWNLOAD_FOLDER,'mockup.mp4'))
     value = blinkduration.blinkduration()
         #eyeblink.clearFolder()
     db = firestore.Client()

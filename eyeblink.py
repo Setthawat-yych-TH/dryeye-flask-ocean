@@ -88,5 +88,5 @@ def clearFolder():
     for f in os.listdir(DOWNLOAD_FOLDER):
         if not f.endswith(".mp4"):
             continue
-    os.remove(os.path.join(DOWNLOAD_FOLDER, f))
+        os.remove(os.path.join(DOWNLOAD_FOLDER, f))
   
