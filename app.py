@@ -120,10 +120,12 @@ def valueBlinkDuration():
 @app.route('/clearFile')
 def clearFile():
     eyeblink.clearFolder()
+    return 'Clear File Complete'
 
 @app.route('/checkFile')
 def checkFile():
-    eyeblink.checkFolder()
+    list = eyeblink.checkFolder()
+    return jsonify(list)
 
 if __name__ == "__main__":
     app.run(debug=False)

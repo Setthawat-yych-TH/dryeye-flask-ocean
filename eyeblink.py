@@ -93,7 +93,9 @@ def clearFolder():
 
 
 def checkFolder():
+    fileList = [] 
     for f in os.listdir(DOWNLOAD_FOLDER):
         if not f.endswith(".mp4"):
             continue
-        print(os.path.join(DOWNLOAD_FOLDER, f))
+        fileList.append(f)
+    return fileList
