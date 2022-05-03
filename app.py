@@ -73,7 +73,7 @@ def downloadVideo():
     #     return 'failed'
 
 
-@app.route('/downloadURL', methods= 'post')
+@app.route('/downloadURL', methods= ['post'])
 def downloadURL():
     if request.method == 'POST':
         url_link = request.args['url']
