@@ -14,6 +14,8 @@ from google.cloud import firestore
 import firebase_admin
 from firebase_admin import credentials
 from datetime import datetime
+import urllib.request 
+
 
 config = {
   "apiKey": "AIzaSyC23zle1HEwFlNQOi10E4QdTLtdiLkIsb0",
@@ -73,11 +75,14 @@ def downloadVideo():
     #     return 'failed'
 
 
-@app.route('/uploader')
-def uploader():
-    f = request.files['filename']
-    f.save(os.path.join (app.config['UPLOAD_FOLDER'],f.filename))
-    return 'file uploaded successfully'
+@app.route('/downloadURL')
+def downloadURL():
+    url_link = request.args['url']
+    #https%3A%2F%2Ffirebasestorage.googleapis.com%2Fv0%2Fb%2Feye-examination-database.appspot.com%2Fo%2Ffiles%252FREC2570387848447835707.mp4%3Falt%3Dmedia%26token%3D93d5ef70-0b18-41db-b915-a91539a3a453
+    print(url_link)
+    urllib.request.urlretrieve(url_link,os.path.join(DOWNLOAD_FOLDER,'mockup_url.mp4'))
+    return 'video downloaded successfully' 
+
 
 
 @app.route('/valueEyeBlink')
