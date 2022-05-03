@@ -67,21 +67,20 @@ def getPath():
 
 @app.route('/downloadVideo')
 def downloadVideo():
-    # if request.method == 'GET':
-    #     if(request.headers.get('key')==secret_key):
     storage.child("video_mockup/test.mp4").download(os.path.join(DOWNLOAD_FOLDER,'mockup.mp4'))
     return 'video uploaded successfully'
     # else:
     #     return 'failed'
 
 
-@app.route('/downloadURL')
+@app.route('/downloadURL', methods= 'post')
 def downloadURL():
-    url_link = request.args['url']
+    if request.method == 'POST':
+        url_link = request.args['url']
     #https%3A%2F%2Ffirebasestorage.googleapis.com%2Fv0%2Fb%2Feye-examination-database.appspot.com%2Fo%2Ffiles%252FREC2570387848447835707.mp4%3Falt%3Dmedia%26token%3D93d5ef70-0b18-41db-b915-a91539a3a453
-    print(url_link)
-    urllib.request.urlretrieve(url_link,os.path.join(DOWNLOAD_FOLDER,'mockup_url.mp4'))
-    return 'video downloaded successfully' 
+        print(url_link)
+        urllib.request.urlretrieve(url_link,os.path.join(DOWNLOAD_FOLDER,'mockup_url.mp4'))
+        return 'video downloaded successfully' 
 
 
 

@@ -53,7 +53,7 @@ def eyeblink ():
             rightEye = landmarks[36:42]
             leftEye = eye_aspect_ratio(leftEye)
             rightEye = eye_aspect_ratio(rightEye)
- 
+            
             eye = (leftEye + rightEye) / 2.0
             #if eye: cv2.putText(img, format('eyes deteteced'), (10, 110),cv2.FONT_HERSHEY_SIMPLEX,1.0, (0, 0, 0), 2)
       
