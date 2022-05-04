@@ -31,8 +31,8 @@ def eye_aspect_ratio(eye):
     return eye
  
 
-def blinkduration ():
-    cap = cv2.VideoCapture(os.path.join(DOWNLOAD_FOLDER,'mockup.mp4'))
+def blinkduration (name):
+    cap = cv2.VideoCapture(os.path.join(DOWNLOAD_FOLDER,name))
     seconds = time.time() 
     detector = dlib.get_frontal_face_detector()
     predictor = dlib.shape_predictor('rsc/shape_predictor_68_face_landmarks.dat')

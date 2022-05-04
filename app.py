@@ -15,6 +15,8 @@ import firebase_admin
 from firebase_admin import credentials
 from datetime import datetime
 import urllib.request 
+from urllib.parse import unquote
+from urllib.parse import urlparse
 
 
 config = {
@@ -82,14 +84,56 @@ def downloadURL():
         urllib.request.urlretrieve(url_link,os.path.join(DOWNLOAD_FOLDER,'mockup_url.mp4'))
         return 'video downloaded successfully' 
 
+@app.route('/eyeblink', methods=['POST'])
+def getEyeblink():
+     if request.method == 'POST':
+        url_link = request.args['url']
+        print(url_link)
+        uncodeURL = unquote(url_link)
+        parseURL = urlparse(uncodeURL)
+        videoName = os.path.basename(parseURL.path)
+        urllib.request.urlretrieve(url_link,os.path.join(DOWNLOAD_FOLDER,videoName))
+        json_dict = {}
+        value = eyeblink.eyeblink(videoName)
+        firebase = Firebase(config)
+        cred = credentials.Certificate("dryeye-video-firebase-firebase-adminsdk-rpf9i-64aa3ea14e.json")
+        firebase_admin.initialize_app(cred)
+        db = firestore.Client()
+        data = {
+            'name':videoName, 'result':value, 
+        }
+        db.collection(u'eyeblink').document(videoName).set(data)
+        return 'video uploaded successfully'
 
+        
+@app.route('/blinkduration', methods=['POST'])
+def getBlinkduration():
+     if request.method == 'POST':
+        url_link = request.args['url']
+        print(url_link)
+        uncodeURL = unquote(url_link)
+        parseURL = urlparse(uncodeURL)
+        videoName = os.path.basename(parseURL.path)
+        urllib.request.urlretrieve(url_link,os.path.join(DOWNLOAD_FOLDER,videoName))
+        json_dict = {}
+        value = blinkduration.blinkduration(videoName)
+        firebase = Firebase(config)
+        cred = credentials.Certificate("dryeye-video-firebase-firebase-adminsdk-rpf9i-64aa3ea14e.json")
+        firebase_admin.initialize_app(cred)
+        db = firestore.Client()
+        data = {
+            'name':videoName, 'result':value, 
+        }
+        db.collection(u'blinkduration').document(videoName).set(data)
+        return 'video uploaded successfully'
+ 
 
 @app.route('/valueEyeBlink')
 def valueEyeBlink():
     #if(request.headers.get('key')==secret_key):
     json_dict = {}
     #storage.child("video_mockup/test.mp4").download(os.path.join(DOWNLOAD_FOLDER,'mockup.mp4'))
-    value = eyeblink.eyeblink()
+    value = eyeblink.eyeblink('5.mp4')
     firebase = Firebase(config)
     db = firestore.Client()
     now = datetime.now()
