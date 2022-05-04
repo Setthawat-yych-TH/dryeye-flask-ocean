@@ -1,4 +1,6 @@
+from curses import keyname
 import os
+from winreg import REG_NOTIFY_CHANGE_SECURITY
 
 from numpy import eye
 
@@ -19,16 +21,18 @@ from urllib.parse import unquote
 from urllib.parse import urlparse
 
 
+
 config = {
-  "apiKey": "AIzaSyC23zle1HEwFlNQOi10E4QdTLtdiLkIsb0",
-  "authDomain": "dryeye-video-firebase.firebaseapp.com",
-  "databaseURL": "https://dryeye-video-firebase-default-rtdb.asia-southeast1.firebasedatabase.app",
-  "storageBucket": "dryeye-video-firebase.appspot.com",
-  "serviceAccount" : "dryeye-video-firebase-firebase-adminsdk-rpf9i-4f393863ef.json"
+  "apiKey": "AIzaSyCnoKv8shJVI32bQ-NT9fPKWppeo8yFn7Q",
+  "authDomain": "eye-examination-database.firebaseapp.com",
+  "databaseURL": "https://eye-examination-database-default-rtdb.firebaseio.com",
+  "projectId": "eye-examination-database",
+  "storageBucket": "eye-examination-database.appspot.com",
 }
 
-os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "dryeye-video-firebase-firebase-adminsdk-rpf9i-64aa3ea14e.json"
-cred = credentials.Certificate("dryeye-video-firebase-firebase-adminsdk-rpf9i-64aa3ea14e.json")
+
+os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "eye-examination-database-firebase-adminsdk-uw2sl-f0e23442f4.json"
+cred = credentials.Certificate("eye-examination-database-firebase-adminsdk-uw2sl-f0e23442f4.json")
 firebase_admin.initialize_app(cred)
 firebase = Firebase(config)
 storage = firebase.storage()
@@ -76,6 +80,20 @@ def downloadVideo():
     # else:
     #     return 'failed'
 
+@app.route('/checkBody', methods=['POST'])
+def checkBody():
+    if request.method == 'POST':
+        body = request.json
+        key = body['key']
+        return key
+         
+
+@app.route('/checkHeader')
+def checkHeader():
+    header = request.headers.get('key')
+    print(header)
+    return str(header)
+
 
 @app.route('/downloadURL', methods= ['post'])
 def downloadURL():
@@ -89,6 +107,8 @@ def downloadURL():
 @app.route('/eyeblink', methods=['POST'])
 def getEyeblink():
      if request.method == 'POST':
+        body = request.json
+        key = body['key']
         url_link = request.args['url']
         print(url_link)
         uncodeURL = unquote(url_link)
@@ -98,17 +118,21 @@ def getEyeblink():
         json_dict = {}
         value = eyeblink.eyeblink(videoName)
         firebase = Firebase(config)
-        cred = credentials.Certificate("dryeye-video-firebase-firebase-adminsdk-rpf9i-64aa3ea14e.json")
         data = {
-            'name':videoName, 'result':value, 
+            u'name':videoName, u'eyeblink':value, 
         }
-        db.collection(u'eyeblink').document(videoName).set(data)
+        try:
+            db.collection(u'dryeye').document(videoName).update(data)
+        except:
+            db.collection(u'dryeye').document(videoName).set(data)
         return 'video uploaded successfully'
 
         
 @app.route('/blinkduration', methods=['POST'])
 def getBlinkduration():
      if request.method == 'POST':
+        body = request.json
+        key = body['key']
         url_link = request.args['url']
         print(url_link)
         uncodeURL = unquote(url_link)
@@ -118,12 +142,15 @@ def getBlinkduration():
         json_dict = {}
         value = blinkduration.blinkduration(videoName)
         firebase = Firebase(config)
-        cred = credentials.Certificate("dryeye-video-firebase-firebase-adminsdk-rpf9i-64aa3ea14e.json")
         data = {
-            'name':videoName, 'result':value, 
+            u'name':videoName, u'duration':value, 
         }
-        db.collection(u'blinkduration').document(videoName).set(data)
+        try:
+            db.collection(u'dryeye').document(key).update(data)
+        except:
+            db.collection(u'dryeye').document(key).set(data)
         return 'video uploaded successfully'
+ 
  
 
 @app.route('/valueEyeBlink')
