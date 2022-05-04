@@ -46,6 +46,8 @@ DOWNLOAD_FOLDER = os.path.join(APP_FOLDER,'download')
 app.config['APP_FOLDER'] = APP_FOLDER
 app.config['DOWNLOAD_FOLDER'] = DOWNLOAD_FOLDER
 
+
+db = firestore.Client()
 # @app.route('/checkKey')
 # def checkPath():
 #     key = request.headers.get('key')
@@ -97,8 +99,6 @@ def getEyeblink():
         value = eyeblink.eyeblink(videoName)
         firebase = Firebase(config)
         cred = credentials.Certificate("dryeye-video-firebase-firebase-adminsdk-rpf9i-64aa3ea14e.json")
-        firebase_admin.initialize_app(cred)
-        db = firestore.Client()
         data = {
             'name':videoName, 'result':value, 
         }
@@ -119,8 +119,6 @@ def getBlinkduration():
         value = blinkduration.blinkduration(videoName)
         firebase = Firebase(config)
         cred = credentials.Certificate("dryeye-video-firebase-firebase-adminsdk-rpf9i-64aa3ea14e.json")
-        firebase_admin.initialize_app(cred)
-        db = firestore.Client()
         data = {
             'name':videoName, 'result':value, 
         }
