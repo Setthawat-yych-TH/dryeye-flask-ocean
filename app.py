@@ -122,9 +122,9 @@ def getEyeblink():
             u'name':videoName, u'eyeblink':value, 
         }
         try:
-            db.collection(u'dryeye').document(videoName).update(data)
+            db.collection(u'dryeye').document(key).update(data)
         except:
-            db.collection(u'dryeye').document(videoName).set(data)
+            db.collection(u'dryeye').document(key).set(data)
         return 'video uploaded successfully'
 
         
