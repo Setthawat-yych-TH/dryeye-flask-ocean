@@ -1,6 +1,5 @@
 from curses import keyname
 import os
-from winreg import REG_NOTIFY_CHANGE_SECURITY
 
 from numpy import eye
 
