@@ -37,7 +37,7 @@ def blinkduration (name):
     frame_count = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
     duration = frame_count/fps
     duration = math.floor(duration)
-
+    frame_init = 0
     seconds = time.time() 
     detector = dlib.get_frontal_face_detector()
     predictor = dlib.shape_predictor('rsc/shape_predictor_68_face_landmarks.dat')
@@ -57,24 +57,24 @@ def blinkduration (name):
  
             leftEye = eye_aspect_ratio(leftEye)
             rightEye = eye_aspect_ratio(rightEye)
- 
-            eye = (leftEye + rightEye) / 2.0
-        
+            eye = (leftEye + rightEye) / 2.0      
+
             if eye<eye_check:
                 if not(leftEye > 0.25 and rightEye > 0.25):
                     count+=1
-                #0.275 1214,12.14
             else:
                 if count>=count_min and count <=count_max:
                     print(eye)
                     total+=1
+                count=0
 
-        timer = math.floor(time.time() - seconds)
-        countdown = duration - timer
-        print('timer : ' + str(timer))
+        frame_init = frame_init + 1
+        timer = math.floor(frame_init/fps)
+        print('timer by frame : ' + str(timer))
+        countdown = duration-timer
         print('countdown : ' + str(countdown))
-        if total == 1 or countdown == 0 or timer == 30:
-            return timer , total
+        if total != 0 or countdown == 0 or timer == 30:
+	        return total , duration , timer
 
 def clearFolder():
     for f in os.listdir(DOWNLOAD_FOLDER):

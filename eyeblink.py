@@ -41,6 +41,7 @@ def eyeblink (name):
     duration = frame_count/fps
     duration = math.floor(duration)
     
+    frame_init = 0
     seconds = time.time() 
     detector = dlib.get_frontal_face_detector()
     predictor = dlib.shape_predictor('rsc/shape_predictor_68_face_landmarks.dat')
@@ -70,12 +71,13 @@ def eyeblink (name):
                     total+=1
                 count=0
 
-        timer = math.floor(time.time() - seconds)
-        countdown = duration - math.floor(time.time() - seconds)
-        print('timer: ' + str(timer))
-        print('countdown: ' + str(countdown))
+        frame_init = frame_init + 1
+        timer = math.floor(frame_init/fps)
+        print('timer by frame : ' + str(timer))
+        countdown = duration-timer
+        print('countdown : ' + str(countdown))
         if countdown == 0 or timer == 30:
-	        return total
+	        return total , timer , countdown
 
 def clearFolder():
     for f in os.listdir(DOWNLOAD_FOLDER):

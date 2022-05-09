@@ -1,3 +1,4 @@
+from asyncio import start_unix_server
 from curses import keyname
 import os
 
@@ -103,6 +104,53 @@ def downloadURL():
         urllib.request.urlretrieve(url_link,os.path.join(DOWNLOAD_FOLDER,'mockup_url.mp4'))
         return 'video downloaded successfully' 
 
+
+
+@app.route('/eyetest')
+def eyeTest():
+    videoname = request.args['video']
+    #video = '5.mp4'
+    video = videoname 
+    total , timer , countdown = eyeblink.eyeblink(video)
+    status = ''
+    if total == 0:
+        status = 'Not Eye Detected'
+    else:
+        if timer == 30 and countdown > 0:
+            status = 'too long video'
+        elif timer == 30 and countdown == 0:
+            status = 'OK video'
+        elif timer < 30 and countdown == 0:
+            status = 'too short video'
+
+    print('total blink : ' + str(total) )
+    print('status : ' + str(status))
+    return('eyetest testing success')
+   
+@app.route('/blinktest')
+def blinkTest():
+    #video = '5.mp4'
+    videoname = request.args['video']
+    #video = '5.mp4'
+    video = videoname 
+    total , duration , timer = blinkduration.blinkduration(video)
+    status = ''
+    if total == 0:
+        status = 'Not Eye Detected'
+    else:
+        if duration > 30:
+            status = 'too long video'
+        elif duration == 30:
+            status = 'OK video'
+        else: 
+            status = 'too short video'
+
+    print('interval time : ' + str(timer) )
+    print('total blink : ' + str(total) )
+    print('status : ' + str(status))
+    return('blinktest testing success')
+
+
 @app.route('/eyeblink', methods=['POST'])
 def getEyeblink():
      if request.method == 'POST':
@@ -115,11 +163,23 @@ def getEyeblink():
         videoName = os.path.basename(parseURL.path)
         urllib.request.urlretrieve(url_link,os.path.join(DOWNLOAD_FOLDER,videoName))
         json_dict = {}
-        total = eyeblink.eyeblink(videoName)
+        total , timer , countdown  = eyeblink.eyeblink(videoName)
+        status = ''
+        if total == 0:
+            status = 'Not Eye Detected'
+        else:
+            if timer == 30 and countdown > 0:
+                status = 'too long video'
+            elif timer == 30 and countdown == 0:
+                status = 'OK video'
+            elif timer < 30 and countdown == 0:
+                status = 'too short video'
+        print('interval time : ' + str(timer) )
         print('total blink : ' + str(total) )
+        print('status : ' + str(status))
         firebase = Firebase(config)
         data = {
-            u'name':videoName, u'eyeblink':total, 
+            u'name':videoName, u'eyeblink':total, u'status':status,
         }
         try:
             db.collection(u'dryeye').document(key).update(data)
@@ -140,12 +200,24 @@ def getBlinkduration():
         videoName = os.path.basename(parseURL.path)
         urllib.request.urlretrieve(url_link,os.path.join(DOWNLOAD_FOLDER,videoName))
         json_dict = {}
-        timer , total = blinkduration.blinkduration(videoName)
+        total , duration , timer = blinkduration.blinkduration(videoName)
+        status = ''
+        if total == 0:
+            status = 'Not Eye Detected'
+        else:
+            if duration > 30:
+                status = 'too long video'
+            elif duration == 30:
+                status = 'OK video'
+            else: 
+                status = 'too short video'
+
         print('interval time : ' + str(timer) )
         print('total blink : ' + str(total) )
+        print('status : ' + str(status))
         firebase = Firebase(config)
         data = {
-            u'name':videoName, u'duration':timer, 
+            u'name':videoName, u'duration':timer, u'status':status,
         }
         try:
             db.collection(u'dryeye').document(key).update(data)
