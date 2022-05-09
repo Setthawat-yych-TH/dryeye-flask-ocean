@@ -115,10 +115,11 @@ def getEyeblink():
         videoName = os.path.basename(parseURL.path)
         urllib.request.urlretrieve(url_link,os.path.join(DOWNLOAD_FOLDER,videoName))
         json_dict = {}
-        value = eyeblink.eyeblink(videoName)
+        total = eyeblink.eyeblink(videoName)
+        print('total blink : ' + str(total) )
         firebase = Firebase(config)
         data = {
-            u'name':videoName, u'eyeblink':value, 
+            u'name':videoName, u'eyeblink':total, 
         }
         try:
             db.collection(u'dryeye').document(key).update(data)
@@ -139,10 +140,12 @@ def getBlinkduration():
         videoName = os.path.basename(parseURL.path)
         urllib.request.urlretrieve(url_link,os.path.join(DOWNLOAD_FOLDER,videoName))
         json_dict = {}
-        value = blinkduration.blinkduration(videoName)
+        timer , total = blinkduration.blinkduration(videoName)
+        print('interval time : ' + str(timer) )
+        print('total blink : ' + str(total) )
         firebase = Firebase(config)
         data = {
-            u'name':videoName, u'duration':value, 
+            u'name':videoName, u'duration':timer, 
         }
         try:
             db.collection(u'dryeye').document(key).update(data)

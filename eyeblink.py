@@ -70,11 +70,11 @@ def eyeblink (name):
                     total+=1
                 count=0
 
-
-        timer = duration - math.floor(time.time() - seconds)
-        print(math.floor(time.time() - seconds))
-        print(timer)
-        if timer == 0:
+        timer = math.floor(time.time() - seconds)
+        countdown = duration - math.floor(time.time() - seconds)
+        print('timer: ' + str(timer))
+        print('countdown: ' + str(countdown))
+        if countdown == 0 or timer == 30:
 	        return total
 
 def clearFolder():

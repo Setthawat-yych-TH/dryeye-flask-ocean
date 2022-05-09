@@ -71,10 +71,10 @@ def blinkduration (name):
 
         timer = math.floor(time.time() - seconds)
         countdown = duration - timer
-        print(countdown)
-        #cv2.imshow('Video',img)
-        if total == 1 or countdown == 0:
-            return timer
+        print('timer : ' + str(timer))
+        print('countdown : ' + str(countdown))
+        if total == 1 or countdown == 0 or timer == 30:
+            return timer , total
 
 def clearFolder():
     for f in os.listdir(DOWNLOAD_FOLDER):
