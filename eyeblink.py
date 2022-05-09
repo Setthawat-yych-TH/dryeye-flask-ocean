@@ -36,6 +36,11 @@ def eye_aspect_ratio(eye):
 
 def eyeblink (name):
     cap = cv2.VideoCapture(os.path.join(DOWNLOAD_FOLDER,name))
+    fps = cap.get(cv2.CAP_PROP_FPS)
+    frame_count = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
+    duration = frame_count/fps
+    duration = math.floor(duration)
+    
     seconds = time.time() 
     detector = dlib.get_frontal_face_detector()
     predictor = dlib.shape_predictor('rsc/shape_predictor_68_face_landmarks.dat')
@@ -54,33 +59,21 @@ def eyeblink (name):
             leftEye = eye_aspect_ratio(leftEye)
             rightEye = eye_aspect_ratio(rightEye)
             
-            eye = (leftEye + rightEye) / 2.0
-            #if eye: cv2.putText(img, format('eyes deteteced'), (10, 110),cv2.FONT_HERSHEY_SIMPLEX,1.0, (0, 0, 0), 2)
-      
+            eye = (leftEye + rightEye) / 2.0      
 
             if eye<eye_check:
                 if not(leftEye > 0.25 and rightEye > 0.25):
                     count+=1
-                #0.275 1214,12.14
             else:
                 if count>=count_min and count <=count_max:
                     print(eye)
                     total+=1
-            # if eye<eye_check:
-            #     if not(leftEye > 0.25 and rightEye > 0.25):
-            #         count+=1
-            # #0.275 1214,12.14
-            # else:
-            #     if count>=count_min and count <=count_max:
-            #         print(eye)
-            #         total+=1
                 count=0
 
 
-        timer = 30-math.floor(time.time()-seconds)
-        print(math.floor(time.time()-seconds))
+        timer = duration - math.floor(time.time() - seconds)
+        print(math.floor(time.time() - seconds))
         print(timer)
-        #cv2.imshow('Video',img)
         if timer == 0:
 	        return total
 

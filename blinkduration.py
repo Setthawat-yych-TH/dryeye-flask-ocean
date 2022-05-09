@@ -33,6 +33,11 @@ def eye_aspect_ratio(eye):
 
 def blinkduration (name):
     cap = cv2.VideoCapture(os.path.join(DOWNLOAD_FOLDER,name))
+    fps = cap.get(cv2.CAP_PROP_FPS)
+    frame_count = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
+    duration = frame_count/fps
+    duration = math.floor(duration)
+
     seconds = time.time() 
     detector = dlib.get_frontal_face_detector()
     predictor = dlib.shape_predictor('rsc/shape_predictor_68_face_landmarks.dat')
@@ -64,8 +69,8 @@ def blinkduration (name):
                     print(eye)
                     total+=1
 
-        timer = math.floor(time.time()-seconds)
-        countdown = 30 - timer
+        timer = math.floor(time.time() - seconds)
+        countdown = duration - timer
         print(countdown)
         #cv2.imshow('Video',img)
         if total == 1 or countdown == 0:
