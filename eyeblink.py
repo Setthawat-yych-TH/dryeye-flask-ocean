@@ -85,7 +85,7 @@ def eyeblink_halfframe (name):
         print('countdown : ' + str(countdown))
         realTimer = math.floor(time.time() - seconds)
         if countdown == 0 or timer == 30:
-	        return total , realTimer , countdown
+	        return total , timer , realTimer , countdown
 
 
 def eyeblink (name):
@@ -132,7 +132,7 @@ def eyeblink (name):
         realTimer = math.floor(time.time() - seconds)
         print('countdown : ' + str(countdown))
         if countdown == 0 or timer == 30:
-	        return total , realTimer , countdown
+	        return total , timer , realTimer , countdown
 
 def clearFolder():
     for f in os.listdir(DOWNLOAD_FOLDER):
