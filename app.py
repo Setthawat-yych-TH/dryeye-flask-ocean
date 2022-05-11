@@ -149,7 +149,29 @@ def eyeTest():
     print('total blink : ' + str(total) )
     print('status : ' + str(status))
     return('eyetest testing success')
-   
+
+@app.route('/eyetest2')
+def eyeTest():
+    videoname = request.args['video']
+    #video = '5.mp4'
+    video = videoname 
+    total , timer , realtimer , countdown = eyeblink.eyeblink_halfframe(video)
+    status = ''
+    if total == 0:
+        status = 'Not Eye Detected'
+    else:
+        if timer == 30 and countdown > 0:
+            status = 'too long video'
+        elif timer == 30 and countdown == 0:
+            status = 'OK video'
+        elif timer < 30 and countdown == 0:
+            status = 'too short video'
+            
+    print('interval time : ' + str(realtimer))
+    print('total blink : ' + str(total) )
+    print('status : ' + str(status))
+    return('eyetest testing success')
+
 @app.route('/blinktest')
 def blinkTest():
     #video = '5.mp4'
