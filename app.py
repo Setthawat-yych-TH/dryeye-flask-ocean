@@ -151,7 +151,7 @@ def eyeTest():
     return('eyetest testing success')
 
 @app.route('/eyetest2')
-def eyeTest():
+def eyeTestTest():
     videoname = request.args['video']
     #video = '5.mp4'
     video = videoname 
