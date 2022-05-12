@@ -101,7 +101,10 @@ def downloadURL():
         url_link = request.args['url']
     #https%3A%2F%2Ffirebasestorage.googleapis.com%2Fv0%2Fb%2Feye-examination-database.appspot.com%2Fo%2Ffiles%252FREC2570387848447835707.mp4%3Falt%3Dmedia%26token%3D93d5ef70-0b18-41db-b915-a91539a3a453
         print(url_link)
-        urllib.request.urlretrieve(url_link,os.path.join(DOWNLOAD_FOLDER,'mockup_url.mp4'))
+        uncodeURL = unquote(url_link)
+        parseURL = urlparse(uncodeURL)
+        videoName = os.path.basename(parseURL.path)
+        urllib.request.urlretrieve(url_link,os.path.join(DOWNLOAD_FOLDER,videoName))
         return 'video downloaded successfully' 
 
 
