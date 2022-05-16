@@ -21,7 +21,6 @@ from urllib.parse import unquote
 from urllib.parse import urlparse
 
 
-
 config = {
   "apiKey": "AIzaSyCnoKv8shJVI32bQ-NT9fPKWppeo8yFn7Q",
   "authDomain": "eye-examination-database.firebaseapp.com",
@@ -211,7 +210,7 @@ def getEyeblink():
         videoName = os.path.basename(parseURL.path)
         urllib.request.urlretrieve(url_link,os.path.join(DOWNLOAD_FOLDER,videoName))
         json_dict = {}
-        total , timer , countdown  = eyeblink.eyeblink(videoName)
+        total , timer , realtimer , countdown  = eyeblink.eyeblink(videoName)
         status = ''
         if total == 0:
             status = 'Not Eye Detected'
@@ -222,7 +221,7 @@ def getEyeblink():
                 status = 'OK video'
             elif timer < 30 and countdown == 0:
                 status = 'too short video'
-        print('interval time : ' + str(timer) )
+        print('interval time : ' + str(realtimer) )
         print('total blink : ' + str(total) )
         print('status : ' + str(status))
         firebase = Firebase(config)
