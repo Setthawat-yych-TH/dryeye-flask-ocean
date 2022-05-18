@@ -1,8 +1,5 @@
-from asyncio import start_unix_server
-from curses import keyname
 import os
-
-from numpy import eye
+import json
 
 from flask import Flask, jsonify, request, render_template, Response
 from werkzeug.utils import secure_filename
@@ -49,7 +46,7 @@ DOWNLOAD_FOLDER = os.path.join(APP_FOLDER,'download')
 app.config['APP_FOLDER'] = APP_FOLDER
 app.config['DOWNLOAD_FOLDER'] = DOWNLOAD_FOLDER
 
-
+valueList={}
 db = firestore.Client()
 # @app.route('/checkKey')
 # def checkPath():
@@ -146,7 +143,7 @@ def eyeTest():
             status = 'OK video'
         elif timer < 30 and countdown == 0:
             status = 'too short video'
-            
+    
     print('interval time : ' + str(realtimer))
     print('total blink : ' + str(total) )
     print('status : ' + str(status))
@@ -225,6 +222,7 @@ def getEyeblink():
         print('total blink : ' + str(total) )
         print('status : ' + str(status))
         firebase = Firebase(config)
+        valueList['BlinkFrequency'] = total 
         data = {
             u'name':videoName, u'eyeblink':total, u'status':status,
         }
@@ -232,7 +230,7 @@ def getEyeblink():
             db.collection(u'dryeye').document(key).update(data)
         except:
             db.collection(u'dryeye').document(key).set(data)
-        return 'video uploaded successfully'
+        return 'BlinkFrequency Success'
 
         
 @app.route('/blinkduration', methods=['POST'])
@@ -266,13 +264,33 @@ def getBlinkduration():
         data = {
             u'name':videoName, u'duration':timer, u'status':status,
         }
+        valueList['IntervalTime'] = timer 
         try:
             db.collection(u'dryeye').document(key).update(data)
         except:
             db.collection(u'dryeye').document(key).set(data)
-        return 'video uploaded successfully'
+        return 'IntervalTime Success'
  
+@app.route('/returnValue')
+def returnValue():
+    valueJSON = json.dumps(valueList)
+    return valueJSON
+
  
+@app.route('/returnMock')
+def returnMock():
+    mock = {
+        "BlinkFrequency": 2,
+        "IntervalTime" : 2
+    }
+    mockJSON = json.dumps(mock)
+    return mockJSON
+
+
+@app.route('/clearValue')
+def clearValue():
+    valueList.clear()
+    return 'clear value success'
 
 @app.route('/valueEyeBlink')
 def valueEyeBlink():
