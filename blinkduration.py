@@ -9,9 +9,8 @@ import math
 #parameter
 count = 0
 total = 0
-eye_check = 0.3 #0.275
+eye_check = 0.25 #0.275
 count_min = 2
-count_max = 5 
 
 
 APP_FOLDER = os.path.dirname(os.path.abspath(__file__))
@@ -60,10 +59,9 @@ def blinkduration (name):
             eye = (leftEye + rightEye) / 2.0      
 
             if eye<eye_check:
-                if not(leftEye > 0.25 and rightEye > 0.25):
-                    count+=1
+                count+=1
             else:
-                if count>=count_min and count <=count_max:
+                if count>=count_min:
                     print(eye)
                     total+=1
                 count=0
