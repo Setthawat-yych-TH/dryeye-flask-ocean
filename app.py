@@ -198,6 +198,7 @@ def blinkTest():
 @app.route('/eyeblink', methods=['POST'])
 def getEyeblink():
      if request.method == 'POST':
+        valueList.clear()
         body = request.json
         key = body['key']
         url_link = request.args['url']
@@ -331,7 +332,7 @@ def valueBlinkDuration():
 
 @app.route('/clearFile')
 def clearFile():
-    eyeblink.clearFolder()
+     
     return 'Clear File Complete'
 
 @app.route('/checkFile')
