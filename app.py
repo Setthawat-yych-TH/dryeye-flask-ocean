@@ -379,9 +379,14 @@ async def checkNull():
     print('data add complete')
  
 
+@app.route('/returnValueLoop')
+async def returnValueLoop():
+    await checkNull()
+    valueJSON = json.dumps(valueList)
+    return valueJSON
+
 @app.route('/returnValue')
 async def returnValue():
-    await checkNull()
     valueJSON = json.dumps(valueList)
     return valueJSON
 
