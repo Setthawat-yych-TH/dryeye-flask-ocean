@@ -389,6 +389,16 @@ async def returnValueLoop():
 async def returnValue():
     valueJSON = json.dumps(valueList)
     return valueJSON
+    
+@app.route('/returnValueBlink')
+async def returnValueBlink():
+    valueJSON = json.dumps(valueList['BlinkFrequency'])
+    return valueJSON
+
+@app.route('/returnValueTime')
+async def returnValueTime():
+    valueJSON = json.dumps(valueList['IntervalTime'])
+    return valueJSON
 
 @app.route('/clearValue')
 def clearValue():
