@@ -356,12 +356,6 @@ async def getBlinkdurationAsync():
         except:
             db.collection(u'dryeye').document(key).set(data)
         return 'IntervalTime Success'
-
-@app.route('/returnValue')
-def returnValue():
-    valueJSON = json.dumps(valueList)
-    return valueJSON
-
  
 @app.route('/returnMock')
 def returnMock():
@@ -378,6 +372,18 @@ def dataMock():
     valueList['BlinkFrequency'] = '99'
     return 'Mock Success'
 
+
+async def checkNull():
+    while (valueList['IntervalTime'] == '' or  valueList['BlinkFrequency'] == ''):
+        print('null')
+    print('data add complete')
+ 
+
+@app.route('/returnValue')
+async def returnValue():
+    await checkNull()
+    valueJSON = json.dumps(valueList)
+    return valueJSON
 
 @app.route('/clearValue')
 def clearValue():
