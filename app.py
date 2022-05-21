@@ -271,6 +271,92 @@ def getBlinkduration():
             db.collection(u'dryeye').document(key).set(data)
         return 'IntervalTime Success'
  
+
+
+async def blinkProcess(videoName):
+    total , timer , realtimer , countdown = eyeblink.eyeblink(videoName)
+    return total , timer , realtimer , countdown
+
+async def timeProcess(videoName):
+    total , duration , timer = blinkduration.blinkduration(videoName)
+    return total , duration , timer
+
+@app.route('/eyeblink-async', methods=['POST'])
+async def getEyeblinkAsync():
+     if request.method == 'POST':
+        body = request.json
+        key = body['key']
+        url_link = request.args['url']
+        print(url_link)
+        uncodeURL = unquote(url_link)
+        parseURL = urlparse(uncodeURL)
+        videoName = os.path.basename(parseURL.path)
+        urllib.request.urlretrieve(url_link,os.path.join(DOWNLOAD_FOLDER,videoName))
+        json_dict = {}
+        total , timer , realtimer , countdown  = await blinkProcess(videoName)
+        status = ''
+        if total == 0:
+            status = 'Not Eye Detected'
+        else:
+            if timer == 30 and countdown > 0:
+                status = 'too long video'
+            elif timer == 30 and countdown == 0:
+                status = 'OK video'
+            elif timer < 30 and countdown == 0:
+                status = 'too short video'
+        print('interval time : ' + str(realtimer) )
+        print('total blink : ' + str(total) )
+        print('status : ' + str(status))
+        firebase = Firebase(config)
+        valueList['BlinkFrequency'] = total 
+        data = {
+            u'name':videoName, u'eyeblink':total, u'status':status,
+        }
+        try:
+            db.collection(u'dryeye').document(key).update(data)
+        except:
+            db.collection(u'dryeye').document(key).set(data)
+        return 'BlinkFrequency Success'
+
+        
+@app.route('/blinkduration-async', methods=['POST'])
+async def getBlinkdurationAsync():
+     if request.method == 'POST':
+        body = request.json
+        key = body['key']
+        url_link = request.args['url']
+        print(url_link)
+        uncodeURL = unquote(url_link)
+        parseURL = urlparse(uncodeURL)
+        videoName = os.path.basename(parseURL.path)
+        urllib.request.urlretrieve(url_link,os.path.join(DOWNLOAD_FOLDER,videoName))
+        json_dict = {}
+        total , duration , timer = await timeProcess(videoName)
+        status = ''
+        if total == 0:
+            status = 'Not Eye Detected'
+        else:
+            if duration > 30:
+                status = 'too long video'
+            elif duration == 30:
+                status = 'OK video'
+            else: 
+                status = 'too short video'
+
+        print('interval time : ' + str(timer) )
+        print('total blink : ' + str(total) )
+        print('status : ' + str(status))
+        firebase = Firebase(config)
+        data = {
+            u'name':videoName, u'duration':timer, u'status':status,
+        }
+        valueList['IntervalTime'] = timer 
+        try:
+            db.collection(u'dryeye').document(key).update(data)
+        except:
+            db.collection(u'dryeye').document(key).set(data)
+        return 'IntervalTime Success'
+
 @app.route('/returnValue')
 def returnValue():
     valueJSON = json.dumps(valueList)
