@@ -198,7 +198,6 @@ def blinkTest():
 @app.route('/eyeblink', methods=['POST'])
 def getEyeblink():
      if request.method == 'POST':
-        valueList.clear()
         body = request.json
         key = body['key']
         url_link = request.args['url']
