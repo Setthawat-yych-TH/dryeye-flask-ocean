@@ -9,8 +9,8 @@ import math
 #parameter
 count = 0
 total = 0
-eye_check = 0.25 #0.275
-count_min = 2
+eye_check = 0.2 #0.275
+count_min = 3
 
 
 APP_FOLDER = os.path.dirname(os.path.abspath(__file__))
