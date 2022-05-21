@@ -372,12 +372,19 @@ def returnMock():
     mockJSON = json.dumps(mock)
     return mockJSON
 
+@app.route('/dataMock')
+def dataMock():
+    valueList['IntervalTime'] = '99'
+    valueList['BlinkFrequency'] = '99'
+    return 'Mock Success'
+
 
 @app.route('/clearValue')
 def clearValue():
-    valueList.clear()
+    valueList['IntervalTime'] = ''
+    valueList['BlinkFrequency'] = ''
     return 'clear value success'
-
+    
 @app.route('/valueEyeBlink')
 def valueEyeBlink():
     #if(request.headers.get('key')==secret_key):
